@@ -14,6 +14,9 @@ const router = Router();
 
 router.get( '/', validarJWT  ,getUsuarios );
 
+
+
+
 router.post( '/', 
     [  
         check('nombre', 'El nombre es obligatorio').not().isEmpty(),
