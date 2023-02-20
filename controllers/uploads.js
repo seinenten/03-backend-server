@@ -78,6 +78,15 @@ const retornaImagen = ( req, res = response ) => {
     const tipo = req.params.tipo;
     const foto = req.params.foto;
 
+    const tiposValidos = ['hospitales','medicos','usuarios'];
+
+    if ( !tiposValidos.includes(tipo) ){
+        return res.status(400).json({
+            ok: false,
+            msg: 'No es un médico, usuario u hospital (tipo) '
+        });
+    }
+
     const pathImg = path.join( __dirname, `../uploads/${ tipo }/${ foto }` );
 
     // imagen por defecto
