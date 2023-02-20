@@ -43,20 +43,77 @@ const CrearHospital = async(req, res = response) => {
 
 }
 
-const ActualizarHospital = (req, res = response) => {
+const ActualizarHospital = async(req, res = response) => {
 
-    res.status(200).json({
-        ok: true,
-        msg: 'Actualizar Hospital'
-    });
+    const id = req.params.id
+    //tenemos el uid por que pasamos por la verificacion de jwt
+    const uid = req.uid;
+
+    try {
+
+        const hospital = await Hospital.findById( id );
+
+        if( !hospital ){
+            return res.status(404).json({
+                ok: true,
+                msg: 'Hospital no encontrado por id'
+            });
+        }
+
+        const cambiosHospital = {
+            ...req.body,
+            usuario: uid
+        }
+
+        const hospitalActualizado = await Hospital.findOneAndUpdate( id, cambiosHospital, { new: true } );
+
+
+
+        res.json({
+            ok: true,
+            hospital: hospitalActualizado
+        });
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
+
 }
 
-const eliminarHospital = (req, res = response) => {
+const eliminarHospital = async(req, res = response) => {
 
-    res.status(200).json({
-        ok: true,
-        msg: 'borrar Hospital'
-    });
+    const id = req.params.id
+
+    try {
+
+        const hospital = await Hospital.findById( id );
+
+        if( !hospital ){
+            return res.status(404).json({
+                ok: true,
+                msg: 'Hospital no encontrado por id'
+            });
+        }
+
+        await Hospital.findByIdAndDelete( id );
+
+        res.json({
+            ok: true,
+            msg: 'Hospital eliminado'
+        });
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
+
 }
 
 
