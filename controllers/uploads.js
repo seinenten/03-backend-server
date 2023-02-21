@@ -31,7 +31,9 @@ const fileUpload = (req, res = response) => {
     // Procesar la imagen...
     const file = req.files.imagen;
 
+
     const nombreCortado = file.name.split('.'); //wolerine.1.3.2.jpg
+
     const extensionArchivo = nombreCortado[ nombreCortado.length - 1 ];
 
     // Validar extension
@@ -42,6 +44,16 @@ const fileUpload = (req, res = response) => {
             msg: 'No es una extension permitida'
         });
     }
+
+    //Validar tamaño
+    if( !file.size >= 4000000 ){
+        return res.status(400).json({
+            ok: false,
+            msg: 'El archivo debe de tener un peso maximo de 4 mb'
+        });
+    }
+
+    //Termino de validar el peso
 
     // Generar el nombre del archivo 
     const nombreArchivo = `${ uuidv4()}.${ extensionArchivo }`;

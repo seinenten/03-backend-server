@@ -38,7 +38,14 @@ router.put( '/:id',
     actualizarUsuario 
 );
 
-router.delete( '/:id' , validarJWT , eliminarUsuario );
+router.delete( '/:id' ,
+    [
+        validarJWT,
+        check('status' , 'El status es obligatorio').not().isEmpty(),
+        validarCampos
+    ]
+    
+    , eliminarUsuario );
 
 
 
