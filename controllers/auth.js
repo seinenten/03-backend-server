@@ -17,7 +17,7 @@ const login = async( req , res = response) => {
         if( !usuarioDB ){
             return res.status(404).json({
                 ok: false,
-                msg: 'Email no valido'
+                msg: 'Email no encontrado'
             })
         }
 
@@ -103,9 +103,13 @@ const renewToken = async(req, res = response) => {
     //Generar el token - JWT
     const token = await generarJWT( uid );
 
+    //Obtener el usuario por UID
+    const usuario = await Usuario.findById( uid );
+
     res.json({
         ok: true,
-        token
+        token,
+        usuario
     });
 
 }
