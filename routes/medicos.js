@@ -10,7 +10,8 @@ const {
     ActualizarMedico,
     CrearMedico,
     eliminarMedico,
-    getMedicos
+    getMedicos,
+    getMedicoById
 } = require('../controllers/medicos')
 
 const router = Router();
@@ -38,7 +39,9 @@ router.put( '/:id',
     ActualizarMedico 
 );
 
-router.delete( '/:id' , eliminarMedico );
+router.delete( '/:id' , validarJWT ,eliminarMedico );
+
+router.get( '/:id'  ,getMedicoById );
 
 
 
