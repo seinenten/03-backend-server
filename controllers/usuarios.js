@@ -33,6 +33,21 @@ const getUsuarios = async(req, res) => {
     });
 }
 
+const getEmails = async(req, res) => {
+    const busqueda = req.params.email;
+    const regex = new RegExp( busqueda, 'i' );
+
+        const  emails= await Usuario.find( { email: regex }, 'email' )
+
+
+    res.json( {
+        ok: true,
+        emails
+    })
+
+
+}
+
 const crearUsuario = async(req, res = response) => {
 
     const { email, password } = req.body;
@@ -187,5 +202,6 @@ module.exports = {
     getUsuarios,
     crearUsuario,
     actualizarUsuario,
-    eliminarUsuario
+    eliminarUsuario,
+    getEmails
 }
