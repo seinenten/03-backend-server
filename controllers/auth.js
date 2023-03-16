@@ -57,7 +57,7 @@ const googleSignIn = async( req , res = response) => {
 
     try {
 
-        const { email, name, picture } = await googleVerify( req.body.token );
+        const { email, name, picture, aud } = await googleVerify( req.body.token );
         
         const usuarioDB =await Usuario.findOne({ email });
         let usuario;
@@ -87,7 +87,8 @@ const googleSignIn = async( req , res = response) => {
             ok: true,
             email, name, picture,
             token,
-            menu: getMenuFronEnd( usuario.role )
+            menu: getMenuFronEnd( usuario.role ),
+            aud
         });
 
     } catch (error) {
